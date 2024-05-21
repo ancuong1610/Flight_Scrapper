@@ -87,7 +87,9 @@ Main function that performs the web scraping and returns the flight data.
 ### main()
 
 Handles user input and calls the `scrape_flights` function. Displays the results and saves them to a CSV file.
+
 Example:
+
 ![Screenshot 2024-05-21 at 12 41 10](https://github.com/ancuong1610/Flight_Scrapper/assets/66347972/4bd7f6e5-0d8d-4737-8b6d-2b78d7d9d9bb)
 
 
