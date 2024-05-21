@@ -1,4 +1,4 @@
-Sure! Here's the updated `README.md` for your Flight Scrapper project:
+
 
 ```markdown
 # Flight Scrapper
@@ -101,10 +101,6 @@ Handles user input and calls the `scrape_flights` function. Displays the results
 
 - Ensure you have the Firefox browser installed.
 - Adjust the GeckoDriver path in the script if it's not in your system's PATH.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
