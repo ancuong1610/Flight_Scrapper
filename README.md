@@ -1,6 +1,4 @@
 
-
-```markdown
 # Flight Scrapper
 
 Flight Scrapper is a Python script that automatically navigates to flight booking websites to retrieve and compare flight prices from various airlines, helping you find the cheapest options.
@@ -19,7 +17,7 @@ Flight Scrapper is a Python script that automatically navigates to flight bookin
 - [GeckoDriver](https://github.com/mozilla/geckodriver/releases) (for Selenium, not needed if you already have Firefox installed)
 
 ## Setup Guide
-
+```markdown
 1. **Clone the repository:**
 
     ```sh
@@ -45,13 +43,6 @@ Flight Scrapper is a Python script that automatically navigates to flight bookin
     - Download the appropriate version of GeckoDriver from the [releases page](https://github.com/mozilla/geckodriver/releases).
     - Extract the downloaded file and place the `geckodriver` executable in a directory that is in your system's PATH, or specify the path in the script.
     - **Note:** If you already have Firefox browser installed, there is no need to install GeckoDriver separately.
-
-## Usage
-
-Run the script with the following command:
-
-```sh
-python flight_scraper.py
 ```
 
 You will be prompted to enter the following details:
