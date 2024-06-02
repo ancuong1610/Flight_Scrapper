@@ -4,8 +4,6 @@ from selenium import webdriver
 from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-import pandas as pd
-from tabulate import tabulate
 
 
 def handle_cookie_consent(driver):
@@ -58,8 +56,10 @@ def scrape_kayak(origin, destination, outbound_date, return_date):
     options = webdriver.FirefoxOptions()
     options.headless = False  # Run Firefox with a GUI
 
-    driver = webdriver.Firefox(options=options)
-    #url = f'https://www.kayak.de/flights/{origin}-{destination}/{outbound_date}/'
+    driver = webdriver.Remote(
+        command_executor='http://localhost:4444/wd/hub',
+        options=options
+    )
     url = f'https://www.cheapflights.com.au/flight-search/{origin}-{destination}/{outbound_date}/{return_date}?sort=bestflight_a'
     driver.get(url)
 
@@ -70,7 +70,7 @@ def scrape_kayak(origin, destination, outbound_date, return_date):
     scroll_to_bottom(driver)
 
     # Click "Show More" button to load all results
-    click_show_more(driver)
+    #click_show_more(driver)
 
     flight_results = []
 
@@ -79,14 +79,14 @@ def scrape_kayak(origin, destination, outbound_date, return_date):
         driver.implicitly_wait(10)
 
         # Find all elements with class `nrc6-wrapper`
-        wrapper_elements = driver.find_elements(By.CLASS_NAME, 'nrc6-wrapper')
+        wrapper_elements = driver.find_elements(By.CLASS_NAME, 'nrc6-main')
 
         for wrapper in wrapper_elements:
             # Create a dictionary to store data for each row
             row_data = {}
 
             # Get the class name of the wrapper element
-            row_data['Class'] = 'nrc6-wrapper'
+            row_data['Class'] = 'nrc6-main'
 
             # Find and store text data inside the wrapper element
             row_data['Text'] = wrapper.text.strip()
@@ -109,28 +109,3 @@ def scrape_kayak(origin, destination, outbound_date, return_date):
         print("done")
 
     return flight_results
-
-
-def main():
-    origin = input("Enter origin airport code: ")
-    destination = input("Enter destination airport code: ")
-    outbound_date = input("Enter outbound date (YYYY-MM-DD): ")
-    return_date = input("Enter return date (YYYY-MM-DD): ")
-
-    flight_results = scrape_kayak(origin, destination, outbound_date,return_date)
-    if flight_results:
-        # Convert flight_results to DataFrame for better readability
-        df = pd.DataFrame(flight_results)
-        tabulated_data = tabulate(df, headers='keys', tablefmt='grid')
-        print(tabulated_data)
-
-        # Export tabulated data to CSV file
-        with open('flight_data.csv', 'w') as f:
-            f.write(tabulated_data)
-        print("Flight data exported to 'flight_data.csv'")
-    else:
-        print("No flight data found.")
-
-
-if __name__ == "__main__":
-    main()

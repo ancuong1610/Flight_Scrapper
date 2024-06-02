@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Scraping App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Flight Scraping App</h1>
+        <form id="scrapeForm">
+            <label for="origin">Origin:</label>
+            <input type="text" id="origin" name="origin" required><br>
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="destination" required><br>
+            <label for="outbound_date">Outbound Date (YYYY-MM-DD):</label>
+            <input type="text" id="outbound_date" name="outbound_date" required><br>
+            <label for="return_date">Return Date (YYYY-MM-DD):</label>
+            <input type="text" id="return_date" name="return_date" required><br>
+            <button type="submit">Scrape Flights</button>
+        </form>
+        <div id="results"></div>
+    </div>
+    <script>
+        document.getElementById('scrapeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+            fetch('/scrape', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = ''; // Clear previous results
+
+                if (data.error) {
+                    resultsDiv.innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    data.data.forEach(flight => {
+                        const flightInfo = document.createElement('div');
+                        flightInfo.classList.add('flight-info');
+
+                        const classInfo = document.createElement('p');
+                        classInfo.textContent = `Class: ${flight.Class}`;
+                        flightInfo.appendChild(classInfo);
+
+                        const textInfo = document.createElement('p');
+                        textInfo.textContent = `Text: ${flight.Text}`;
+                        flightInfo.appendChild(textInfo);
+
+                        if (flight.Images.length > 0) {
+                            const imagesInfo = document.createElement('div');
+                            imagesInfo.textContent = 'Images:';
+                            flight.Images.forEach(src => {
+                                const img = document.createElement('img');
+                                img.src = src;
+                                img.alt = 'Flight image';
+                                img.style.width = '100px';
+                                img.style.height = '100px';
+                                imagesInfo.appendChild(img);
+                            });
+                            flightInfo.appendChild(imagesInfo);
+                        }
+
+                        resultsDiv.appendChild(flightInfo);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
