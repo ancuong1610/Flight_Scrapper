@@ -21,30 +21,22 @@ Flight Scrapper is a Python script that automatically navigates to flight bookin
 ```markdown
 1. **Clone the repository:**
 
-    ```sh
     git clone https://github.com/ancuong1610/Flight_Scrapper.git
     cd Flight_Scrapper
-    ```
 
 2. **Create a virtual environment (optional but recommended):**
 
-    ```sh
     python -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
 
 3. **Install the required packages (go to Pycharm Project terminal):**
 
-    ```sh
     docker-compose build
     docker-compose up
-    ```
 
 4. **Run the application:**
 
-    ```sh
     python app.py 
-    ```
 
     - Go to link: http://127.0.0.1:5002
 ```
